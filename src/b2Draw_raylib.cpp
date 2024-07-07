@@ -1,7 +1,5 @@
 #include "b2Draw_raylib.hpp"
 
-#define CONV(...) M_Convert(__VA_ARGS__)
-
 b2Draw_raylib::b2Draw_raylib() noexcept
     : m_scale { 1.0f }
 {
@@ -27,32 +25,32 @@ void b2Draw_raylib::DrawPolygon(b2Vec2 const* vertices, int32 vertexCount, b2Col
 {
     for (int i = 0; i < vertexCount - 1; ++i)
     {
-        DrawLineV(CONV(vertices[i]), CONV(vertices[i + 1]), CONV(color));
+        DrawLineV(M_Convert(vertices[i]), M_Convert(vertices[i + 1]), M_Convert(color));
     }
-    DrawLineV(CONV(vertices[vertexCount - 1]), CONV(vertices[0]), CONV(color));
+    DrawLineV(M_Convert(vertices[vertexCount - 1]), M_Convert(vertices[0]), M_Convert(color));
 }
 
 void b2Draw_raylib::DrawSolidPolygon(b2Vec2 const* vertices, int32 vertexCount, b2Color const& color) noexcept
 {
     for (int i = 1; i < vertexCount - 1; ++i)
     {
-        DrawTriangle(CONV(vertices[0]), CONV(vertices[i + 1]), CONV(vertices[i]), CONV(color));
+        DrawTriangle(M_Convert(vertices[0]), M_Convert(vertices[i + 1]), M_Convert(vertices[i]), M_Convert(color));
     }
 }
 
 void b2Draw_raylib::DrawCircle(b2Vec2 const& center, float radius, b2Color const& color) noexcept
 {
-    DrawCircleLinesV(CONV(center), CONV(radius), CONV(color));
+    DrawCircleLinesV(M_Convert(center), M_Convert(radius), M_Convert(color));
 }
 
 void b2Draw_raylib::DrawSolidCircle(b2Vec2 const& center, float radius, b2Vec2 const& /* axis */, b2Color const& color) noexcept
 {
-    DrawCircleV(CONV(center), CONV(radius), CONV(color));
+    DrawCircleV(M_Convert(center), M_Convert(radius), M_Convert(color));
 }
 
 void b2Draw_raylib::DrawSegment(b2Vec2 const& p1, b2Vec2 const& p2, b2Color const& color) noexcept
 {
-    DrawLineV(CONV(p1), CONV(p2), CONV(color));
+    DrawLineV(M_Convert(p1), M_Convert(p2), M_Convert(color));
 }
 
 void b2Draw_raylib::DrawTransform(b2Transform const& xf) noexcept
@@ -63,7 +61,7 @@ void b2Draw_raylib::DrawTransform(b2Transform const& xf) noexcept
 
 void b2Draw_raylib::DrawPoint(b2Vec2 const& p, float size, b2Color const& color) noexcept
 {
-    DrawCircleV(CONV(p), size, CONV(color));
+    DrawCircleV(M_Convert(p), size, M_Convert(color));
 }
 
 float b2Draw_raylib::M_Convert(float f) const noexcept

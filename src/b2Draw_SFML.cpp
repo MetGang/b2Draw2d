@@ -1,7 +1,5 @@
 #include "b2Draw_SFML.hpp"
 
-#define CONV(...) M_Convert(__VA_ARGS__)
-
 b2Draw_SFML::b2Draw_SFML()
     : m_renderTarget { nullptr }
     , m_renderStates { sf::RenderStates::Default }
@@ -53,11 +51,11 @@ void b2Draw_SFML::DrawPolygon(b2Vec2 const* vertices, int32 vertexCount, b2Color
 
     for (int i = 0; i < vertexCount; ++i)
     {
-        m_convexShape.setPoint(i, CONV(vertices[i]));
+        m_convexShape.setPoint(i, M_Convert(vertices[i]));
     }
 
     m_convexShape.setFillColor(sf::Color::Transparent);
-    m_convexShape.setOutlineColor(CONV(color));
+    m_convexShape.setOutlineColor(M_Convert(color));
     m_convexShape.setOutlineThickness(-1.0f);
 
     m_renderTarget->draw(m_convexShape, m_renderStates);
@@ -69,10 +67,10 @@ void b2Draw_SFML::DrawSolidPolygon(b2Vec2 const* vertices, int32 vertexCount, b2
 
     for (int i = 0; i < vertexCount; ++i)
     {
-        m_convexShape.setPoint(i, CONV(vertices[i]));
+        m_convexShape.setPoint(i, M_Convert(vertices[i]));
     }
 
-    m_convexShape.setFillColor(CONV(color));
+    m_convexShape.setFillColor(M_Convert(color));
     m_convexShape.setOutlineColor(sf::Color::Transparent);
     m_convexShape.setOutlineThickness(0.0f);
 
@@ -81,11 +79,11 @@ void b2Draw_SFML::DrawSolidPolygon(b2Vec2 const* vertices, int32 vertexCount, b2
 
 void b2Draw_SFML::DrawCircle(b2Vec2 const& center, float radius, b2Color const& color)
 {
-    m_circleShape.setRadius(CONV(radius));
-    m_circleShape.setPosition(CONV(center));
-    m_circleShape.setOrigin(CONV({ radius, radius }));
+    m_circleShape.setRadius(M_Convert(radius));
+    m_circleShape.setPosition(M_Convert(center));
+    m_circleShape.setOrigin(M_Convert({ radius, radius }));
     m_circleShape.setFillColor(sf::Color::Transparent);
-    m_circleShape.setOutlineColor(CONV(color));
+    m_circleShape.setOutlineColor(M_Convert(color));
     m_circleShape.setOutlineThickness(-1.0f);
 
     m_renderTarget->draw(m_circleShape, m_renderStates);
@@ -93,10 +91,10 @@ void b2Draw_SFML::DrawCircle(b2Vec2 const& center, float radius, b2Color const& 
 
 void b2Draw_SFML::DrawSolidCircle(b2Vec2 const& center, float radius, b2Vec2 const& /* axis */, b2Color const& color)
 {
-    m_circleShape.setRadius(CONV(radius));
-    m_circleShape.setPosition(CONV(center));
-    m_circleShape.setOrigin(CONV({ radius, radius }));
-    m_circleShape.setFillColor(CONV(color));
+    m_circleShape.setRadius(M_Convert(radius));
+    m_circleShape.setPosition(M_Convert(center));
+    m_circleShape.setOrigin(M_Convert({ radius, radius }));
+    m_circleShape.setFillColor(M_Convert(color));
     m_circleShape.setOutlineColor(sf::Color::Transparent);
     m_circleShape.setOutlineThickness(0.0f);
 
@@ -105,7 +103,7 @@ void b2Draw_SFML::DrawSolidCircle(b2Vec2 const& center, float radius, b2Vec2 con
 
 void b2Draw_SFML::DrawSegment(b2Vec2 const& p1, b2Vec2 const& p2, b2Color const& color)
 {
-    sf::Vertex const line[] = { { CONV(p1), CONV(color) }, { CONV(p2), CONV(color) } };
+    sf::Vertex const line[] = { { M_Convert(p1), M_Convert(color) }, { M_Convert(p2), M_Convert(color) } };
 
     m_renderTarget->draw(line, 2u, sf::Lines, m_renderStates);
 }
@@ -119,9 +117,9 @@ void b2Draw_SFML::DrawTransform(b2Transform const& xf)
 void b2Draw_SFML::DrawPoint(b2Vec2 const& p, float size, b2Color const& color)
 {
     m_circleShape.setRadius(size);
-    m_circleShape.setPosition(CONV(p));
+    m_circleShape.setPosition(M_Convert(p));
     m_circleShape.setOrigin({ size, size });
-    m_circleShape.setFillColor(CONV(color));
+    m_circleShape.setFillColor(M_Convert(color));
     m_circleShape.setOutlineColor(sf::Color::Transparent);
     m_circleShape.setOutlineThickness(0.0f);
 
