@@ -53,9 +53,9 @@ void b2Draw_raylib::DrawSolidCircle(b2Vec2 const& center, float radius, b2Vec2 c
 
     DrawCircleV(M_Convert(center), M_Convert(radius), M_Convert(fillColor));
 
-    DrawLineV(M_Convert(center), M_Convert(center + radius * axis), M_Convert(color));
-
     DrawCircle(center, radius, color);
+
+    DrawSegment(center, center + radius * axis, color);
 }
 
 void b2Draw_raylib::DrawSegment(b2Vec2 const& p1, b2Vec2 const& p2, b2Color const& color) noexcept

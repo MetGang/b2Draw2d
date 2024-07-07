@@ -63,6 +63,8 @@ void b2Draw_SFML::DrawPolygon(b2Vec2 const* vertices, int32 vertexCount, b2Color
 
 void b2Draw_SFML::DrawSolidPolygon(b2Vec2 const* vertices, int32 vertexCount, b2Color const& color)
 {
+    b2Color const fillColor = { 0.5f * color.r, 0.5f * color.g, 0.5f * color.b, 0.5f };
+
     m_convexShape.setPointCount(vertexCount);
 
     for (int i = 0; i < vertexCount; ++i)
@@ -70,9 +72,9 @@ void b2Draw_SFML::DrawSolidPolygon(b2Vec2 const* vertices, int32 vertexCount, b2
         m_convexShape.setPoint(i, M_Convert(vertices[i]));
     }
 
-    m_convexShape.setFillColor(M_Convert(color));
-    m_convexShape.setOutlineColor(sf::Color::Transparent);
-    m_convexShape.setOutlineThickness(0.0f);
+    m_convexShape.setFillColor(M_Convert(fillColor));
+    m_convexShape.setOutlineColor(M_Convert(color));
+    m_convexShape.setOutlineThickness(-1.0f);
 
     m_renderTarget->draw(m_convexShape, m_renderStates);
 }
@@ -89,16 +91,20 @@ void b2Draw_SFML::DrawCircle(b2Vec2 const& center, float radius, b2Color const& 
     m_renderTarget->draw(m_circleShape, m_renderStates);
 }
 
-void b2Draw_SFML::DrawSolidCircle(b2Vec2 const& center, float radius, b2Vec2 const& /* axis */, b2Color const& color)
+void b2Draw_SFML::DrawSolidCircle(b2Vec2 const& center, float radius, b2Vec2 const& axis, b2Color const& color)
 {
+    b2Color const fillColor = { 0.5f * color.r, 0.5f * color.g, 0.5f * color.b, 0.5f };
+
     m_circleShape.setRadius(M_Convert(radius));
     m_circleShape.setPosition(M_Convert(center));
     m_circleShape.setOrigin(M_Convert({ radius, radius }));
-    m_circleShape.setFillColor(M_Convert(color));
-    m_circleShape.setOutlineColor(sf::Color::Transparent);
-    m_circleShape.setOutlineThickness(0.0f);
+    m_circleShape.setFillColor(M_Convert(fillColor));
+    m_circleShape.setOutlineColor(M_Convert(color));
+    m_circleShape.setOutlineThickness(-1.0f);
 
     m_renderTarget->draw(m_circleShape, m_renderStates);
+
+    DrawSegment(center, center + radius * axis, color);
 }
 
 void b2Draw_SFML::DrawSegment(b2Vec2 const& p1, b2Vec2 const& p2, b2Color const& color)
