@@ -32,10 +32,14 @@ void b2Draw_raylib::DrawPolygon(b2Vec2 const* vertices, int32 vertexCount, b2Col
 
 void b2Draw_raylib::DrawSolidPolygon(b2Vec2 const* vertices, int32 vertexCount, b2Color const& color) noexcept
 {
+    b2Color const fillColor = { 0.5f * color.r, 0.5f * color.g, 0.5f * color.b, 0.5f };
+
     for (int i = 1; i < vertexCount - 1; ++i)
     {
-        DrawTriangle(M_Convert(vertices[0]), M_Convert(vertices[i + 1]), M_Convert(vertices[i]), M_Convert(color));
+        DrawTriangle(M_Convert(vertices[0]), M_Convert(vertices[i + 1]), M_Convert(vertices[i]), M_Convert(fillColor));
     }
+
+    DrawPolygon(vertices, vertexCount, color);
 }
 
 void b2Draw_raylib::DrawCircle(b2Vec2 const& center, float radius, b2Color const& color) noexcept
@@ -43,9 +47,15 @@ void b2Draw_raylib::DrawCircle(b2Vec2 const& center, float radius, b2Color const
     DrawCircleLinesV(M_Convert(center), M_Convert(radius), M_Convert(color));
 }
 
-void b2Draw_raylib::DrawSolidCircle(b2Vec2 const& center, float radius, b2Vec2 const& /* axis */, b2Color const& color) noexcept
+void b2Draw_raylib::DrawSolidCircle(b2Vec2 const& center, float radius, b2Vec2 const& axis, b2Color const& color) noexcept
 {
-    DrawCircleV(M_Convert(center), M_Convert(radius), M_Convert(color));
+    b2Color const fillColor = { 0.5f * color.r, 0.5f * color.g, 0.5f * color.b, 0.5f };
+
+    DrawCircleV(M_Convert(center), M_Convert(radius), M_Convert(fillColor));
+
+    DrawLineV(M_Convert(center), M_Convert(center + radius * axis), M_Convert(color));
+
+    DrawCircle(center, radius, color);
 }
 
 void b2Draw_raylib::DrawSegment(b2Vec2 const& p1, b2Vec2 const& p2, b2Color const& color) noexcept
@@ -55,8 +65,8 @@ void b2Draw_raylib::DrawSegment(b2Vec2 const& p1, b2Vec2 const& p2, b2Color cons
 
 void b2Draw_raylib::DrawTransform(b2Transform const& xf) noexcept
 {
-    DrawSegment(xf.p, xf.p + 1.0f * xf.q.GetXAxis(), b2Color{ 1.0f, 0.0f, 0.0f });
-    DrawSegment(xf.p, xf.p + 1.0f * xf.q.GetYAxis(), b2Color{ 0.0f, 1.0f, 0.0f });
+    DrawLineV(M_Convert(xf.p), M_Convert(xf.p + xf.q.GetXAxis()), RED);
+    DrawLineV(M_Convert(xf.p), M_Convert(xf.p + xf.q.GetYAxis()), GREEN);
 }
 
 void b2Draw_raylib::DrawPoint(b2Vec2 const& p, float size, b2Color const& color) noexcept
