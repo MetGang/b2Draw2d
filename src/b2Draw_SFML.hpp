@@ -50,8 +50,6 @@ private:
 
     sf::Vector2f M_Convert(b2Vec2 v) const noexcept;
 
-    sf::Color M_Convert(b2Color c) const noexcept;
-
     sf::RenderTarget* m_renderTarget;
     sf::RenderStates m_renderStates;
     sf::ConvexShape m_convexShape;

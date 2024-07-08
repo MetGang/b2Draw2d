@@ -40,7 +40,5 @@ private:
 
     Vector2 M_Convert(b2Vec2 v) const noexcept;
 
-    Color M_Convert(b2Color c) const noexcept;
-
     float m_scale;
 };
