@@ -90,8 +90,8 @@ std::unique_ptr<b2World> CreateDemoWorld(b2Vec2 size)
     auto hposD = std::uniform_real_distribution<float>{ height * 0.1f, height * 0.9f };
     auto sizeD = std::uniform_real_distribution<float>{ width / 100.0f, width / 50.0f };
 
-    // Falling squares
-    for (size_t i = 0; i < 32; ++i)
+    // Falling rectangles
+    for (size_t i = 0; i < 20; ++i)
     {
         b2BodyDef bdef;
         b2PolygonShape shape;
@@ -102,8 +102,24 @@ std::unique_ptr<b2World> CreateDemoWorld(b2Vec2 size)
         world->CreateBody(&bdef)->CreateFixture(&shape, 1.0f);
     }
 
+    // Falling irregulars
+    for (size_t i = 0; i < 20; ++i)
+    {
+        b2BodyDef bdef;
+        b2PolygonShape shape;
+
+        bdef.position = { vposD(rng), hposD(rng) };
+        bdef.type = b2_dynamicBody;
+        shape.m_vertices[0] = { -sizeD(rng), -sizeD(rng) };
+        shape.m_vertices[1] = {  sizeD(rng), -sizeD(rng) };
+        shape.m_vertices[2] = {  sizeD(rng),  sizeD(rng) };
+        shape.m_vertices[3] = { -sizeD(rng),  sizeD(rng) };
+        shape.m_count = 4;
+        world->CreateBody(&bdef)->CreateFixture(&shape, 1.0f);
+    }
+
     // Falling circles
-    for (size_t i = 0; i < 32; ++i)
+    for (size_t i = 0; i < 20; ++i)
     {
         b2BodyDef bdef;
         b2CircleShape shape;
