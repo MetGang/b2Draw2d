@@ -1,12 +1,12 @@
 #include "b2Draw_raylib.hpp"
 
-Color Convert(b2Color c) noexcept
+Color Convert(b2Color c, float factor = 1.0f) noexcept
 {
     return {
-        static_cast<unsigned char>(c.r * 255.0f),
-        static_cast<unsigned char>(c.g * 255.0f),
-        static_cast<unsigned char>(c.b * 255.0f),
-        static_cast<unsigned char>(c.a * 255.0f),
+        static_cast<unsigned char>(c.r * 255.0f * factor),
+        static_cast<unsigned char>(c.g * 255.0f * factor),
+        static_cast<unsigned char>(c.b * 255.0f * factor),
+        static_cast<unsigned char>(c.a * 255.0f * factor),
     };
 }
 
@@ -42,11 +42,9 @@ void b2Draw_raylib::DrawPolygon(b2Vec2 const* vertices, int32 vertexCount, b2Col
 
 void b2Draw_raylib::DrawSolidPolygon(b2Vec2 const* vertices, int32 vertexCount, b2Color const& color) noexcept
 {
-    b2Color const fillColor = { 0.5f * color.r, 0.5f * color.g, 0.5f * color.b, 0.5f };
-
     for (int i = 1; i < vertexCount - 1; ++i)
     {
-        DrawTriangle(M_Convert(vertices[0]), M_Convert(vertices[i + 1]), M_Convert(vertices[i]), Convert(fillColor));
+        DrawTriangle(M_Convert(vertices[0]), M_Convert(vertices[i + 1]), M_Convert(vertices[i]), Convert(color, 0.5f));
     }
 
     DrawPolygon(vertices, vertexCount, color);
@@ -59,9 +57,7 @@ void b2Draw_raylib::DrawCircle(b2Vec2 const& center, float radius, b2Color const
 
 void b2Draw_raylib::DrawSolidCircle(b2Vec2 const& center, float radius, b2Vec2 const& axis, b2Color const& color) noexcept
 {
-    b2Color const fillColor = { 0.5f * color.r, 0.5f * color.g, 0.5f * color.b, 0.5f };
-
-    DrawCircleV(M_Convert(center), M_Convert(radius), Convert(fillColor));
+    DrawCircleV(M_Convert(center), M_Convert(radius), Convert(color, 0.5f));
 
     DrawCircle(center, radius, color);
 

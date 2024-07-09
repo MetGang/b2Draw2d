@@ -1,12 +1,12 @@
 #include "b2Draw_SFML.hpp"
 
-sf::Color Convert(b2Color c) noexcept
+sf::Color Convert(b2Color c, float factor = 1.0f) noexcept
 {
     return {
-        static_cast<unsigned char>(c.r * 255.0f),
-        static_cast<unsigned char>(c.g * 255.0f),
-        static_cast<unsigned char>(c.b * 255.0f),
-        static_cast<unsigned char>(c.a * 255.0f),
+        static_cast<unsigned char>(c.r * 255.0f * factor),
+        static_cast<unsigned char>(c.g * 255.0f * factor),
+        static_cast<unsigned char>(c.b * 255.0f * factor),
+        static_cast<unsigned char>(c.a * 255.0f * factor),
     };
 }
 
@@ -73,8 +73,6 @@ void b2Draw_SFML::DrawPolygon(b2Vec2 const* vertices, int32 vertexCount, b2Color
 
 void b2Draw_SFML::DrawSolidPolygon(b2Vec2 const* vertices, int32 vertexCount, b2Color const& color)
 {
-    b2Color const fillColor = { 0.5f * color.r, 0.5f * color.g, 0.5f * color.b, 0.5f };
-
     m_convexShape.setPointCount(vertexCount);
 
     for (int i = 0; i < vertexCount; ++i)
@@ -82,7 +80,7 @@ void b2Draw_SFML::DrawSolidPolygon(b2Vec2 const* vertices, int32 vertexCount, b2
         m_convexShape.setPoint(i, M_Convert(vertices[i]));
     }
 
-    m_convexShape.setFillColor(Convert(fillColor));
+    m_convexShape.setFillColor(Convert(color, 0.5f));
     m_convexShape.setOutlineColor(Convert(color));
     m_convexShape.setOutlineThickness(-1.0f);
 
@@ -103,12 +101,10 @@ void b2Draw_SFML::DrawCircle(b2Vec2 const& center, float radius, b2Color const& 
 
 void b2Draw_SFML::DrawSolidCircle(b2Vec2 const& center, float radius, b2Vec2 const& axis, b2Color const& color)
 {
-    b2Color const fillColor = { 0.5f * color.r, 0.5f * color.g, 0.5f * color.b, 0.5f };
-
     m_circleShape.setRadius(M_Convert(radius));
     m_circleShape.setPosition(M_Convert(center));
     m_circleShape.setOrigin(M_Convert({ radius, radius }));
-    m_circleShape.setFillColor(Convert(fillColor));
+    m_circleShape.setFillColor(Convert(color, 0.5f));
     m_circleShape.setOutlineColor(Convert(color));
     m_circleShape.setOutlineThickness(-1.0f);
 
