@@ -6,7 +6,7 @@ sf::Color Convert(b2Color c) noexcept
         static_cast<unsigned char>(c.r * 255.0f),
         static_cast<unsigned char>(c.g * 255.0f),
         static_cast<unsigned char>(c.b * 255.0f),
-        255,
+        static_cast<unsigned char>(c.a * 255.0f),
     };
 }
 
