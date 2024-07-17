@@ -115,15 +115,24 @@ void b2Draw_SFML::DrawSolidCircle(b2Vec2 const& center, float radius, b2Vec2 con
 
 void b2Draw_SFML::DrawSegment(b2Vec2 const& p1, b2Vec2 const& p2, b2Color const& color)
 {
-    sf::Vertex const line[] = { { M_Convert(p1), Convert(color) }, { M_Convert(p2), Convert(color) } };
+    sf::Vertex const line[] = {
+        { M_Convert(p1), Convert(color) },
+        { M_Convert(p2), Convert(color) },
+    };
 
     m_renderTarget->draw(line, 2u, sf::Lines, m_renderStates);
 }
 
 void b2Draw_SFML::DrawTransform(b2Transform const& xf)
 {
-    DrawSegment(xf.p, xf.p + 1.0f * xf.q.GetXAxis(), b2Color{ 1.0f, 0.0f, 0.0f });
-    DrawSegment(xf.p, xf.p + 1.0f * xf.q.GetYAxis(), b2Color{ 0.0f, 1.0f, 0.0f });
+    sf::Vertex const line[] = {
+        { M_Convert(xf.p + xf.q.GetXAxis()), sf::Color::Red   },
+        { M_Convert(xf.p),                   sf::Color::Red   },
+        { M_Convert(xf.p),                   sf::Color::Green },
+        { M_Convert(xf.p + xf.q.GetYAxis()), sf::Color::Green },
+    };
+
+    m_renderTarget->draw(line, 4u, sf::Lines, m_renderStates);
 }
 
 void b2Draw_SFML::DrawPoint(b2Vec2 const& p, float size, b2Color const& color)
